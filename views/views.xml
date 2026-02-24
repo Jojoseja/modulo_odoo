@@ -1,5 +1,21 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+
+    <!-- LIST VIEW -->
+    <record id="view_water_subscription_list" model="ir.ui.view">
+        <field name="name">water.subscription.list</field>
+        <field name="model">water.subscription</field>
+        <field name="arch" type="xml">
+            <list string="Suscripciones de Agua">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="state"/>
+                <field name="daily_consumption_liters"/>
+                <field name="days_left"/>
+                <field name="next_restock_date"/>
+            </list>
+        </field>
+    </record>
 
     <!-- FORM VIEW -->
     <record id="view_water_subscription_form" model="ir.ui.view">
@@ -7,35 +23,74 @@
         <field name="model">water.subscription</field>
         <field name="arch" type="xml">
             <form string="Suscripción de Agua">
+                <header>
+                    <button name="action_activate" type="object" string="Activar"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_done" type="object" string="Finalizar"
+                            class="btn-success" invisible="state != 'active'"/>
+                    <button name="action_cancel" type="object" string="Cancelar"
+                            class="btn-secondary" invisible="state in ('cancel','done')"/>
+                    <button name="action_reset_to_draft" type="object" string="Volver a borrador"
+                            invisible="state == 'draft'"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,done,cancel"/>
+                </header>
+
                 <sheet>
-                    <field name="name"/>
-                    <field name="description"/>
+                    <group>
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="user_id"/>
+                        <field name="start_date"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Consumo">
+                            <group>
+                                <field name="people_count"/>
+                                <field name="liters_per_person_day"/>
+                                <field name="current_stock_liters"/>
+                            </group>
+                            <group string="Predicción">
+                                <field name="daily_consumption_liters" readonly="1"/>
+                                <field name="days_left" readonly="1"/>
+                                <field name="next_restock_date" readonly="1"/>
+                            </group>
+                        </page>
+
+                        <page string="Entregas">
+                            <field name="delivery_ids">
+                                <list editable="bottom">
+                                    <field name="scheduled_date"/>
+                                    <field name="liters"/>
+                                    <field name="product_id"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Notas">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
     </record>
 
-    <!-- LIST VIEW -->
-    <record id="view_water_subscription_list" model="ir.ui.view">
-        <field name="name">water.subscription.list</field>
-        <field name="model">water.subscription</field>
-        <field name="arch" type="xml">
-            <list>
-                <field name="name"/>
-                <field name="description"/>
-            </list>
-        </field>
-    </record>
-
-<!-- ACCION -->
+    <!-- ACTION -->
     <record id="action_water_subscription" model="ir.actions.act_window">
-        <field name="name">suscriptions</field>
+        <field name="name">Suscripciones</field>
         <field name="res_model">water.subscription</field>
         <field name="view_mode">list,form</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Create the first suscription
-            </p>
-        </field>
     </record>
+
+    <!-- MENUS -->
+    <menuitem id="menu_water_root" name="Water" sequence="10" web_icon="water,static/description/icon.png"/>
+    <menuitem id="menu_water_subscription"
+              name="Suscripciones"
+              parent="menu_water_root"
+              action="action_water_subscription"
+              sequence="10"/>
+
 </odoo>

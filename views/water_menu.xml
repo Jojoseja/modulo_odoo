@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<odoo>
-    <menuitem id="water_root_menu" name="Water" sequence="10"/>
-    <menuitem id="water_menu_registros" name="NAME FIELD PLS CHANGE" parent="water_root_menu" action="action_water_subscription" sequence="10"/>
-</odoo>
