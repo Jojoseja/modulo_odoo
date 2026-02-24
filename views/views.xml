@@ -1,77 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <data>
-
-        <!-- FORM VIEW -->
-        <record id="view_water_subscription_form" model="ir.ui.view">
-            <field name="name">water.subscription.form</field>
-            <field name="model">water.subscription</field>
-            <field name="arch" type="xml">
-                <form string="Suscripción de Agua">
-                    <header>
-                        <button name="action_activate" type="object" string="Activar" states="draft" class="btn-primary"/>
-                        <button name="action_pause" type="object" string="Pausar" states="active"/>
-                        <button name="action_cancel" type="object" string="Cancelar" states="active,paused"/>
-                        <button name="action_draft" type="object" string="Borrador" states="cancelled"/>
-                        <field name="state" widget="statusbar"/>
-                    </header>
-
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                            <field name="partner_id"/>
-                            <field name="responsible_id"/>
-                            <field name="start_date"/>
-                            <field name="frequency"/>
-                        </group>
-
-                        <notebook>
-                            <page string="Líneas">
-                                <field name="line_ids" context="{'default_subscription_id': active_id}">
-                                    <tree model="water.subscription.line">
-                                        <field name="product_id"/>
-                                        <field name="quantity"/>
-                                    </tree>
-                                </field>
-                            </page>
-
-                            <page string="Notas">
-                                <field name="notes"/>
-                            </page>
-                        </notebook>
-
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <!-- TREE VIEW -->
-        <record id="view_water_subscription_tree" model="ir.ui.view">
-            <field name="name">water.subscription.tree</field>
-            <field name="model">water.subscription</field>
-            <field name="arch" type="xml">
-                <tree>
+    <!-- FORM VIEW -->
+    <record id="view_water_subscription_form" model="ir.ui.view">
+        <field name="name">water.subscription.form</field>
+        <field name="model">water.subscription</field>
+        <field name="arch" type="xml">
+            <form string="Suscripción de Agua">
+                <sheet>
                     <field name="name"/>
-                    <field name="partner_id"/>
-                    <field name="start_date"/>
-                    <field name="state"/>
-                </tree>
-            </field>
-        </record>
+                    <field name="description"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-        <!-- ACTION -->
-        <record id="action_water_subscription" model="ir.actions.act_window">
-            <field name="name">Suscripciones de Agua</field>
-            <field name="res_model">water.subscription</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+    <!-- LIST VIEW -->
+    <record id="view_water_subscription_list" model="ir.ui.view">
+        <field name="name">water.subscription.list</field>
+        <field name="model">water.subscription</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
 
-        <!-- MENU -->
-        <menuitem id="menu_water_root" name="Water"/>
-
-        <menuitem id="menu_water_subscription"
-                  name="Suscripciones"
-                  parent="menu_water_root"
-                  action="action_water_subscription"/>
-
-    </data>
+    <!-- MENU -->
+    <menuitem id="base.menu_water" name="Water" sequence="10"/>
+    <menuitem id="menu_water_model" name="Water Model" parent="base.menu_water" sequence="10"/>
 </odoo>
