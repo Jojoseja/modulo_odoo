@@ -5,14 +5,15 @@
     'author': "AquaDelivery",
     'website': "https://edu-aquadelivery.odoo.com/",
     'category': 'Services',
-    'version': '0.1',
+    'version': '19.0.1.0.0',
     'depends': ['base','product','contacts'],
-    'application': True,
     'data': [
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
+        'views/water_menu.xml',
     ],
     'installable': True,
+    'application': True,
 }
 
