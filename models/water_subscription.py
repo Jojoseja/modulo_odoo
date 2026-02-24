@@ -71,6 +71,13 @@ class WaterSubscription(models.Model):
                 rec.days_left = 0
                 rec.next_restock_date = False
 
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        if self.partner_id:
+            # Valores por defecto desde el contacto
+            self.people_count = self.partner_id.water_people_count or 1
+            self.liters_per_person_day = self.partner_id.water_liters_per_person_day or 2.0
+
     # WORKFLOW BUTTONS
     def action_activate(self):
         for rec in self:
