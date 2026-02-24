@@ -1,60 +1,77 @@
 <odoo>
-  <data>
-    <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="manage.list">
-      <field name="name">manage list</field>
-      <field name="model">manage.manage</field>
-      <field name="arch" type="xml">
-        <list>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </list>
-      </field>
-    </record>
--->
+    <data>
 
-    <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="manage.action_window">
-      <field name="name">manage window</field>
-      <field name="res_model">manage.manage</field>
-      <field name="view_mode">list,form</field>
-    </record>
--->
+        <!-- FORM VIEW -->
+        <record id="view_water_subscription_form" model="ir.ui.view">
+            <field name="name">water.subscription.form</field>
+            <field name="model">water.subscription</field>
+            <field name="arch" type="xml">
+                <form string="Suscripción de Agua">
+                    <header>
+                        <button name="action_activate" type="object" string="Activar" states="draft" class="btn-primary"/>
+                        <button name="action_pause" type="object" string="Pausar" states="active"/>
+                        <button name="action_cancel" type="object" string="Cancelar" states="active,paused"/>
+                        <button name="action_draft" type="object" string="Borrador" states="cancelled"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
 
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="manage.action_server">
-      <field name="name">manage server</field>
-      <field name="model_id" ref="model_manage_manage"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "list,form",
-          "res_model": model._name,
-        }
-      </field>
-    </record>
--->
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="responsible_id"/>
+                            <field name="start_date"/>
+                            <field name="frequency"/>
+                        </group>
 
-    <!-- Top menu item -->
-<!--
-    <menuitem name="manage" id="manage.menu_root"/>
--->
-    <!-- menu categories -->
-<!--
-    <menuitem name="Menu 1" id="manage.menu_1" parent="manage.menu_root"/>
-    <menuitem name="Menu 2" id="manage.menu_2" parent="manage.menu_root"/>
--->
-    <!-- actions -->
-<!--
-    <menuitem name="List" id="manage.menu_1_list" parent="manage.menu_1"
-              action="manage.action_window"/>
-    <menuitem name="Server to list" id="manage" parent="manage.menu_2"
-              action="manage.action_server"/>
--->
-  </data>
+                        <notebook>
+                            <page string="Líneas">
+                                <field name="line_ids" context="{'default_subscription_id': active_id}">
+                                    <tree model="water.subscription.line">
+                                        <field name="product_id"/>
+                                        <field name="quantity"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Notas">
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- TREE VIEW -->
+        <record id="view_water_subscription_tree" model="ir.ui.view">
+            <field name="name">water.subscription.tree</field>
+            <field name="model">water.subscription</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="start_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- ACTION -->
+        <record id="action_water_subscription" model="ir.actions.act_window">
+            <field name="name">Suscripciones de Agua</field>
+            <field name="res_model">water.subscription</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- MENU -->
+        <menuitem id="menu_water_root" name="Water"/>
+
+        <menuitem id="menu_water_subscription"
+                  name="Suscripciones"
+                  parent="menu_water_root"
+                  action="action_water_subscription"/>
+
+    </data>
 </odoo>

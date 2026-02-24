@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-
+print("MODELO LINEA CARGADO")
 class WaterSubscriptionLine(models.Model):
     _name = 'water.subscription.line'
     _description = 'Water Subscription Line'
@@ -7,7 +7,8 @@ class WaterSubscriptionLine(models.Model):
     subscription_id = fields.Many2one(
         'water.subscription',
         string="Suscripción",
-        ondelete='cascade'
+        ondelete='cascade',
+        required=True
     )
 
     product_id = fields.Many2one(

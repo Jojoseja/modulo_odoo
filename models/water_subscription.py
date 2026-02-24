@@ -29,3 +29,15 @@ class WaterSubscription(models.Model):
         'subscription_id',
         string="Líneas"
     )
+
+    def action_activate(self):
+        self.state = 'active'
+
+    def action_pause(self):
+        self.state = 'paused'
+
+    def action_cancel(self):
+        self.state = 'cancelled'
+
+    def action_draft(self):
+        self.state = 'draft'
