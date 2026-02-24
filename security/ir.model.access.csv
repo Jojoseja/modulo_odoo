@@ -1,2 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_water_subscription_user,water.subscription,model_water_subscription,base.group_user,1,1,1,1
+access_water_subscription_internal,water.subscription internal,model_water_subscription,base.group_user,1,1,1,0
+access_water_delivery_internal,water.delivery internal,model_water_subscription_delivery,base.group_user,1,1,1,0
+
+access_water_subscription_manager,water.subscription manager,model_water_subscription,water.group_water_manager,1,1,1,1
+access_water_delivery_manager,water.delivery manager,model_water_subscription_delivery,water.group_water_manager,1,1,1,1

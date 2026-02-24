@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="group_water_user" model="res.groups">
+        <field name="name">Water User</field>
+    </record>
+
+    <record id="group_water_manager" model="res.groups">
+        <field name="name">Water Manager</field>
+        <field name="implied_ids" eval="[(4, ref('water.group_water_user'))]"/>
+    </record>
+</odoo>
